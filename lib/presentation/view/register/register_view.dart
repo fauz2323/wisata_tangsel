@@ -75,55 +75,46 @@ class _RegisterViewState extends State<RegisterView> {
               SizedBox(
                 height: 30,
               ),
-              Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: 0.1,
-                      blurRadius: 2,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    FormWidget(
-                      controller: usernameController,
-                      isSecure: false,
-                      hintText: 'Enter your username',
-                    ),
-                    FormWidget(
-                      controller: nameController,
-                      isSecure: false,
-                      hintText: 'Enter your name',
-                    ),
-                    FormWidget(
-                      controller: emailController,
-                      isSecure: false,
-                      hintText: 'Enter your email',
-                    ),
-                    FormWidget(
-                      controller: passwordController,
-                      isSecure: true,
-                      hintText: 'Enter your password',
-                    ),
-                    FormWidget(
-                      controller: passwordConfirmController,
-                      isSecure: true,
-                      hintText: 'Confirm your password',
-                    ),
-                  ],
-                ),
+              Column(
+                children: [
+                  FormWidget(
+                    name: "Username",
+                    controller: usernameController,
+                    isSecure: false,
+                    hintText: 'Enter your username',
+                  ),
+                  FormWidget(
+                    name: "Name",
+                    controller: nameController,
+                    isSecure: false,
+                    hintText: 'Enter your name',
+                  ),
+                  FormWidget(
+                    name: "Email",
+                    controller: emailController,
+                    isSecure: false,
+                    hintText: 'Enter your email',
+                  ),
+                  FormWidget(
+                    name: "Password",
+                    controller: passwordController,
+                    isSecure: true,
+                    hintText: 'Enter your password',
+                  ),
+                  FormWidget(
+                    name: "Confirm Password",
+                    controller: passwordConfirmController,
+                    isSecure: true,
+                    hintText: 'Confirm your password',
+                  ),
+                ],
               ),
               SizedBox(
                 height: 20,
               ),
               ButtonWidget(
                 width: SizeHelper.width(context) * 90 / 100,
-                height: 42,
+                height: 62,
                 text: "Register",
                 onTap: () async {
                   var message = await context.read<RegisterCubit>().register(

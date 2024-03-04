@@ -15,7 +15,7 @@ class SplashCubit extends Cubit<SplashState> {
   initial() async {
     String token = await _tokenHelper.getToken();
     var request = await _authController.version();
-    emit(SplashState.initial(request.data['version']));
+    emit(SplashState.initial(request.data['version'].toString()));
     await Future.delayed(const Duration(seconds: 2));
     if (token == '-') {
       emit(SplashState.loaded(false));

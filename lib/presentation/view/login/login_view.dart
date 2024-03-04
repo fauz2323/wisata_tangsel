@@ -60,98 +60,89 @@ class _LoginViewState extends State<LoginView> {
 
   Widget _page(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(70),
-            ),
-            child: Image.asset(
-              'assets/images/login.jpg',
-              fit: BoxFit.cover,
-              height: SizeHelper.height(context) * 0.45,
-              width: SizeHelper.width(context),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Login',
-                  style: TextStyleTheme.primary,
-                ),
-                Text(
-                  "Please login to your account",
-                  style: TextStyle(color: Colors.grey),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                FormWidget(
-                  controller: usernameController,
-                  hintText: "Enter your username",
-                  isSecure: false,
-                ),
-                FormWidget(
-                  controller: passwordController,
-                  hintText: "Enter your Password",
-                  isSecure: true,
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Forgot Password?',
-                    ),
+      child: SafeArea(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: SizeHelper.height(context) * 0.1,
+              ),
+              Text(
+                'Login',
+                style: TextStyleTheme.primary,
+              ),
+              Text(
+                "Please login to your account",
+                style: TextStyle(color: Colors.grey),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              FormWidget(
+                name: "Username",
+                controller: usernameController,
+                hintText: "Enter your username",
+                isSecure: false,
+              ),
+              FormWidget(
+                name: "Password",
+                controller: passwordController,
+                hintText: "Enter your Password",
+                isSecure: true,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Forgot Password?',
                   ),
                 ),
-                ButtonWidget(
-                  onTap: () async {
-                    var message = await context.read<LoginCubit>().login(
-                        usernameController.text, passwordController.text);
+              ),
+              ButtonWidget(
+                onTap: () async {
+                  var message = await context
+                      .read<LoginCubit>()
+                      .login(usernameController.text, passwordController.text);
 
-                    //snackbar
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(message),
-                      ),
-                    );
-                  },
-                  text: "Login",
-                  width: SizeHelper.width(context) * 90 / 100,
-                  height: 50,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have an account?",
+                  //snackbar
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(message),
+                    ),
+                  );
+                },
+                text: "Login",
+                width: SizeHelper.width(context) * 90 / 100,
+                height: 50,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account?",
+                    style: GoogleFonts.montserrat(),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/register');
+                    },
+                    child: Text(
+                      "Sign Up",
                       style: GoogleFonts.montserrat(),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/register');
-                      },
-                      child: Text(
-                        "Sign Up",
-                        style: GoogleFonts.montserrat(),
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          )
-        ],
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

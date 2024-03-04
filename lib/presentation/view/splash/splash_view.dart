@@ -26,7 +26,7 @@ class SplashView extends StatelessWidget {
               if (isLogin) {
                 Navigator.pushReplacementNamed(context, '/home');
               } else {
-                Navigator.pushReplacementNamed(context, '/login');
+                Navigator.pushReplacementNamed(context, '/welcome-page');
               }
             },
           );

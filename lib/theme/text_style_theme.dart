@@ -7,6 +7,11 @@ class TextStyleTheme {
     fontWeight: FontWeight.w600,
   );
 
+  static TextStyle textWelcome = GoogleFonts.montserrat(
+    fontSize: 30,
+    fontWeight: FontWeight.w500,
+  );
+
   static TextStyle appbarText = GoogleFonts.montserrat(
     fontSize: 15,
     fontWeight: FontWeight.w600,

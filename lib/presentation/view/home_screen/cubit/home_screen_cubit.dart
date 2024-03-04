@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geocode/geocode.dart';
 import 'package:tha_maps/data/model/wisata_model.dart';
 import 'package:tha_maps/domain/controller/wisata_controller.dart';
 import 'package:tha_maps/helper/token_helper.dart';
@@ -15,6 +16,8 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
   var token;
   late WisataModel wisataModel;
   late Position position;
+  GeoCode geoCode = GeoCode();
+  late Address address;
 
   initial() async {
     emit(HomeScreenState.loading());
@@ -25,7 +28,9 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
     var request = await _wisataController.getWisata(token);
     if (request.statusCode == 200) {
       wisataModel = WisataModel.fromJson(request.data);
-      emit(HomeScreenState.loaded(wisataModel, position));
+      address = await geoCode.reverseGeocoding(
+          latitude: position.latitude, longitude: position.longitude);
+      emit(HomeScreenState.loaded(wisataModel, position, address));
     } else if (request.statusCode == 401) {
       emit(HomeScreenState.unautorize());
     } else {

@@ -5,6 +5,7 @@ import 'package:tha_maps/presentation/view/home/home_view.dart';
 import 'package:tha_maps/presentation/view/list_wisata/list_wisata_view.dart';
 import 'package:tha_maps/presentation/view/login/login_view.dart';
 import 'package:tha_maps/presentation/view/register/register_view.dart';
+import 'package:tha_maps/presentation/view/welcome_page/welcome_page_view.dart';
 
 import '../presentation/view/maps/maps_view.dart';
 import '../presentation/view/splash/splash_view.dart';
@@ -19,5 +20,6 @@ class RouteHelper {
     '/kategori': (context) => const CategoryView(),
     '/maps': (context) => const MapsView(),
     '/detail-wisata': (context) => const DetailWisataView(),
+    '/welcome-page': (context) => const WelcomePageView(),
   };
 }

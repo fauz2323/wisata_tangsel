@@ -12,7 +12,7 @@ part of 'home_screen_cubit.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$HomeScreenState {
@@ -20,7 +20,8 @@ mixin _$HomeScreenState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(WisataModel wisataModel, Position position)
+    required TResult Function(
+            WisataModel wisataModel, Position position, Address address)
         loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
@@ -30,7 +31,9 @@ mixin _$HomeScreenState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(WisataModel wisataModel, Position position)? loaded,
+    TResult? Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) =>
@@ -39,7 +42,9 @@ mixin _$HomeScreenState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(WisataModel wisataModel, Position position)? loaded,
+    TResult Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
@@ -120,7 +125,7 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$InitialImpl);
   }
@@ -133,7 +138,8 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(WisataModel wisataModel, Position position)
+    required TResult Function(
+            WisataModel wisataModel, Position position, Address address)
         loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
@@ -146,7 +152,9 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(WisataModel wisataModel, Position position)? loaded,
+    TResult? Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
@@ -158,7 +166,9 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(WisataModel wisataModel, Position position)? loaded,
+    TResult Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
@@ -241,7 +251,7 @@ class _$LoadingImpl implements _Loading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$LoadingImpl);
   }
@@ -254,7 +264,8 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(WisataModel wisataModel, Position position)
+    required TResult Function(
+            WisataModel wisataModel, Position position, Address address)
         loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
@@ -267,7 +278,9 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(WisataModel wisataModel, Position position)? loaded,
+    TResult? Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
@@ -279,7 +292,9 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(WisataModel wisataModel, Position position)? loaded,
+    TResult Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
@@ -341,7 +356,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({WisataModel wisataModel, Position position});
+  $Res call({WisataModel wisataModel, Position position, Address address});
 }
 
 /// @nodoc
@@ -357,6 +372,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
   $Res call({
     Object? wisataModel = null,
     Object? position = null,
+    Object? address = null,
   }) {
     return _then(_$LoadedImpl(
       null == wisataModel
@@ -367,6 +383,10 @@ class __$$LoadedImplCopyWithImpl<$Res>
           ? _value.position
           : position // ignore: cast_nullable_to_non_nullable
               as Position,
+      null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as Address,
     ));
   }
 }
@@ -374,31 +394,34 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(this.wisataModel, this.position);
+  const _$LoadedImpl(this.wisataModel, this.position, this.address);
 
   @override
   final WisataModel wisataModel;
   @override
   final Position position;
+  @override
+  final Address address;
 
   @override
   String toString() {
-    return 'HomeScreenState.loaded(wisataModel: $wisataModel, position: $position)';
+    return 'HomeScreenState.loaded(wisataModel: $wisataModel, position: $position, address: $address)';
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
             (identical(other.wisataModel, wisataModel) ||
                 other.wisataModel == wisataModel) &&
             (identical(other.position, position) ||
-                other.position == position));
+                other.position == position) &&
+            (identical(other.address, address) || other.address == address));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, wisataModel, position);
+  int get hashCode => Object.hash(runtimeType, wisataModel, position, address);
 
   @JsonKey(ignore: true)
   @override
@@ -411,12 +434,13 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(WisataModel wisataModel, Position position)
+    required TResult Function(
+            WisataModel wisataModel, Position position, Address address)
         loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
   }) {
-    return loaded(wisataModel, position);
+    return loaded(wisataModel, position, address);
   }
 
   @override
@@ -424,11 +448,13 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(WisataModel wisataModel, Position position)? loaded,
+    TResult? Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
-    return loaded?.call(wisataModel, position);
+    return loaded?.call(wisataModel, position, address);
   }
 
   @override
@@ -436,13 +462,15 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(WisataModel wisataModel, Position position)? loaded,
+    TResult Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(wisataModel, position);
+      return loaded(wisataModel, position, address);
     }
     return orElse();
   }
@@ -489,11 +517,12 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements HomeScreenState {
-  const factory _Loaded(
-      final WisataModel wisataModel, final Position position) = _$LoadedImpl;
+  const factory _Loaded(final WisataModel wisataModel, final Position position,
+      final Address address) = _$LoadedImpl;
 
   WisataModel get wisataModel;
   Position get position;
+  Address get address;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -544,7 +573,7 @@ class _$ErrorImpl implements _Error {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ErrorImpl &&
@@ -565,7 +594,8 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(WisataModel wisataModel, Position position)
+    required TResult Function(
+            WisataModel wisataModel, Position position, Address address)
         loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
@@ -578,7 +608,9 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(WisataModel wisataModel, Position position)? loaded,
+    TResult? Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
@@ -590,7 +622,9 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(WisataModel wisataModel, Position position)? loaded,
+    TResult Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
@@ -678,7 +712,7 @@ class _$UnautorizeImpl implements _Unautorize {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType && other is _$UnautorizeImpl);
   }
@@ -691,7 +725,8 @@ class _$UnautorizeImpl implements _Unautorize {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(WisataModel wisataModel, Position position)
+    required TResult Function(
+            WisataModel wisataModel, Position position, Address address)
         loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
@@ -704,7 +739,9 @@ class _$UnautorizeImpl implements _Unautorize {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(WisataModel wisataModel, Position position)? loaded,
+    TResult? Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
@@ -716,7 +753,9 @@ class _$UnautorizeImpl implements _Unautorize {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(WisataModel wisataModel, Position position)? loaded,
+    TResult Function(
+            WisataModel wisataModel, Position position, Address address)?
+        loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),

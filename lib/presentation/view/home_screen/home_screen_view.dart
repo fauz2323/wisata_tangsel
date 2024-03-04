@@ -2,11 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocode/geocode.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:tha_maps/data/model/wisata_argument_model.dart';
 import 'package:tha_maps/data/model/wisata_model.dart';
 import 'package:tha_maps/helper/distance_helper.dart';
+import 'package:tha_maps/helper/size_helper.dart';
 import 'package:tha_maps/presentation/view/home_screen/cubit/home_screen_cubit.dart';
+import 'package:tha_maps/theme/color_theme.dart';
 
 import '../../../helper/token_helper.dart';
 import '../../../theme/text_style_theme.dart';
@@ -29,22 +32,6 @@ class HomeScreenView extends StatelessWidget {
 
   Widget _build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Trip Apps", style: TextStyleTheme.appbarText),
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await TokenHelper().deleteAllToken();
-              // ignore: use_build_context_synchronously
-              Navigator.pushReplacementNamed(context, '/login');
-            },
-            icon: Icon(
-              Icons.logout_outlined,
-              color: Colors.red,
-            ),
-          )
-        ],
-      ),
       body: BlocConsumer<HomeScreenCubit, HomeScreenState>(
         listener: (context, state) {
           state.maybeWhen(
@@ -60,100 +47,89 @@ class HomeScreenView extends StatelessWidget {
           return state.maybeWhen(
             orElse: () => Container(),
             loading: () => LoadingWidget(),
-            loaded: (data, position) => _loaded(context, data, position),
+            loaded: (data, position, address) =>
+                _loaded(context, data, position, address),
           );
         },
       ),
     );
   }
 
-  Widget _loaded(BuildContext context, WisataModel data, Position position) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: EdgeInsets.all(20),
+  Widget _loaded(BuildContext context, WisataModel data, Position position,
+      Address address) {
+    return SafeArea(
+      child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CarouselSlider(
-              items: data.wisata
-                  .map((e) => ImageSlider(
-                        url:
-                            "https://zeen.my.id/storage/image/" + e.image.image,
-                      ))
-                  .toList(),
-              options: CarouselOptions(
-                autoPlay: true,
-                aspectRatio: 1.9,
-                enlargeCenterPage: true,
-                autoPlayInterval: Duration(seconds: 5),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ButtonMenu(
-                    tittle: "Wisata",
-                    path: 'assets/images/mountain.png',
-                    onTap: () {
-                      Navigator.pushNamed(context, '/wisata',
-                          arguments: WisataArgumentModel(id: 'all'));
-                    }),
-                ButtonMenu(
-                  path: 'assets/images/building.png',
-                  tittle: "Penginapan",
-                  onTap: () {
-                    Navigator.pushNamed(context, '/maps');
-                  },
-                ),
-                ButtonMenu(
-                    path: 'assets/images/options.png',
-                    tittle: "Kategori",
-                    onTap: () {
-                      Navigator.pushNamed(context, '/kategori');
-                    }),
-                ButtonMenu(
-                  path: 'assets/images/map.png',
-                  tittle: "Maps",
-                  onTap: () {
-                    Navigator.pushNamed(context, '/maps');
-                  },
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              "Featured Places",
-              style: TextStyleTheme.appbarText,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Column(
-              children: data.wisata
-                  .map(
-                    (e) => MenuWisataWidget(
-                      onTap: () {},
-                      tittle: e.nama,
-                      url: "https://zeen.my.id/storage/image/" + e.image.image,
-                      distance: DistanceHelper()
-                          .getDistance(
-                              double.parse(e.latitude),
-                              double.parse(e.longitude),
-                              position.latitude,
-                              position.longitude)
-                          .toStringAsFixed(2),
+            Padding(
+              padding: const EdgeInsets.only(
+                  bottom: 20, left: 20, right: 20, top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        color: ColorTheme.primary,
+                      ),
+                      Text(address.city ?? 'city not detected',
+                          style: TextStyleTheme.appbarText),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      await TokenHelper().deleteAllToken();
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushReplacementNamed(context, '/login');
+                    },
+                    icon: Icon(
+                      Icons.logout_outlined,
+                      color: Colors.red,
                     ),
                   )
-                  .toList()
-                  .take(3)
-                  .toList(),
-            )
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              child: Text(
+                "Explore city",
+                style: TextStyleTheme.appbarText,
+              ),
+            ),
+            Container(
+              width: SizeHelper.width(context),
+              height: SizeHelper.height(context) * 35 / 100,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: data.wisata
+                    .map(
+                      (e) => ImageSlider(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/detail-wisata',
+                              arguments:
+                                  WisataArgumentModel(id: e.id.toString()));
+                        },
+                        url:
+                            "https://zeen.my.id/storage/image/" + e.image.image,
+                        distance: DistanceHelper()
+                                .getDistance(
+                                  position.latitude,
+                                  position.longitude,
+                                  double.parse(e.latitude),
+                                  double.parse(e.longitude),
+                                )
+                                .toStringAsFixed(2) +
+                            " KM",
+                        name: e.nama,
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
           ],
         ),
       ),
@@ -165,16 +141,68 @@ class ImageSlider extends StatelessWidget {
   const ImageSlider({
     super.key,
     required this.url,
+    required this.distance,
+    required this.name,
+    required this.onTap,
   });
   final String url;
+  final String distance;
+  final String name;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: CachedNetworkImage(
-        imageUrl: url,
-        fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.all(8),
+        padding: EdgeInsets.all(5),
+        width: SizeHelper.width(context) * 45 / 100,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                spreadRadius: 0.5,
+                blurRadius: 2,
+                offset: Offset(0, 3),
+              )
+            ]),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: CachedNetworkImage(
+                imageUrl: url,
+                height: SizeHelper.width(context) * 45 / 100 - 10,
+                width: SizeHelper.width(context) * 45 / 100 - 10,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text(
+                    name,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Align(
+                    child: Text(distance),
+                    alignment: Alignment.centerRight,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
