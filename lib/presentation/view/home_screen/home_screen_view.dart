@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocode/geocode.dart';
@@ -9,13 +8,12 @@ import 'package:tha_maps/data/model/wisata_model.dart';
 import 'package:tha_maps/helper/distance_helper.dart';
 import 'package:tha_maps/helper/size_helper.dart';
 import 'package:tha_maps/presentation/view/home_screen/cubit/home_screen_cubit.dart';
+import 'package:tha_maps/presentation/widget/button_menu_widget.dart';
 import 'package:tha_maps/theme/color_theme.dart';
 
 import '../../../helper/token_helper.dart';
 import '../../../theme/text_style_theme.dart';
-import '../../widget/button_menu_widget.dart';
 import '../../widget/loading_widget.dart';
-import '../../widget/menu_wisata_widget.dart';
 
 class HomeScreenView extends StatelessWidget {
   const HomeScreenView({super.key});
@@ -128,6 +126,49 @@ class HomeScreenView extends StatelessWidget {
                       ),
                     )
                     .toList(),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              child: Text(
+                "Menu",
+                style: TextStyleTheme.appbarText,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ButtonMenu(
+                      tittle: "Wisata",
+                      path: 'assets/images/travel-bag.png',
+                      onTap: () {
+                        Navigator.pushNamed(context, '/wisata',
+                            arguments: WisataArgumentModel(id: 'all'));
+                      }),
+                  ButtonMenu(
+                      tittle: "Penginapan",
+                      path: 'assets/images/building.png',
+                      onTap: () {}),
+                  ButtonMenu(
+                      tittle: "Maps",
+                      path: 'assets/images/place.png',
+                      onTap: () {
+                        Navigator.pushNamed(context, '/maps');
+                      }),
+                  ButtonMenu(
+                      tittle: "Info",
+                      path: 'assets/images/info.png',
+                      onTap: () {})
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              child: Text(
+                "Explore Hotels",
+                style: TextStyleTheme.appbarText,
               ),
             ),
           ],

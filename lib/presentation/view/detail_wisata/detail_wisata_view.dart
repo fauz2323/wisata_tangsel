@@ -9,6 +9,7 @@ import 'package:tha_maps/helper/distance_helper.dart';
 import 'package:tha_maps/helper/size_helper.dart';
 import 'package:tha_maps/presentation/view/detail_wisata/cubit/detail_wisata_cubit.dart';
 import 'package:tha_maps/presentation/widget/loading_widget.dart';
+import 'package:tha_maps/theme/color_theme.dart';
 import 'package:tha_maps/theme/text_style_theme.dart';
 
 import '../../../data/model/wisata_argument_model.dart';
@@ -32,9 +33,6 @@ class DetailWisataView extends StatelessWidget {
 
   Widget _build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Detail Wisata"),
-      ),
       body: BlocConsumer<DetailWisataCubit, DetailWisataState>(
         listener: (context, state) {
           // TODO: implement listener
@@ -71,26 +69,24 @@ class DetailWisataView extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
-            return SafeArea(
-              child: SingleChildScrollView(
-                child: Container(
-                  child: Wrap(
-                    children: <Widget>[
-                      for (var map in availableMaps)
-                        ListTile(
-                          onTap: () => map.showMarker(
-                            coords: coords,
-                            title: title,
-                          ),
-                          title: Text(map.mapName),
-                          leading: SvgPicture.asset(
-                            map.icon,
-                            height: 30.0,
-                            width: 30.0,
-                          ),
+            return SingleChildScrollView(
+              child: Container(
+                child: Wrap(
+                  children: <Widget>[
+                    for (var map in availableMaps)
+                      ListTile(
+                        onTap: () => map.showMarker(
+                          coords: coords,
+                          title: title,
                         ),
-                    ],
-                  ),
+                        title: Text(map.mapName),
+                        leading: SvgPicture.asset(
+                          map.icon,
+                          height: 30.0,
+                          width: 30.0,
+                        ),
+                      ),
+                  ],
                 ),
               ),
             );
@@ -101,86 +97,151 @@ class DetailWisataView extends StatelessWidget {
       }
     }
 
-    return Column(
+    return Stack(
       children: [
-        Expanded(
-          child: ListView(
-            children: [
-              CachedNetworkImage(
-                imageUrl: "https://zeen.my.id/storage/image/" +
-                    state.detail.image.image,
-                width: SizeHelper.width(context),
-                fit: BoxFit.cover,
-                placeholder: (context, url) => const LoadingWidget(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-              Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      state.detail.nama,
-                      style: TextStyleTheme.primary,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(state.detail.alamat),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Jam Operasional : " + state.detail.operatingHours),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text("Cari Penginapan"),
-                      ),
-                    ),
-                    Text("Detail: "),
-                    SizedBox(
-                      height: 10,
-                      child: Divider(),
-                    ),
-                    Text(state.detail.deskripsi),
-                    SizedBox(
-                      height: 10,
-                      child: Divider(),
-                    ),
-                    Text("Nomor Pengelola : " + state.detail.info.phone),
-                    Text("Distance : " +
-                        DistanceHelper()
-                            .getDistance(
-                              double.parse(state.detail.latitude),
-                              double.parse(state.detail.longitude),
-                              position.latitude,
-                              position.longitude,
-                            )
-                            .toStringAsFixed(2) +
-                        " KM"),
-                  ],
-                ),
-              ),
-            ],
+        ClipRRect(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30)),
+          child: CachedNetworkImage(
+            imageUrl:
+                "https://zeen.my.id/storage/image/" + state.detail.image.image,
+            width: SizeHelper.width(context),
+            height: SizeHelper.height(context) * 0.35,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => const LoadingWidget(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
         ),
-        Container(
-          padding: EdgeInsets.all(20),
-          child: ButtonWidget(
-            onTap: () {
-              openMapsSheet(context);
-            },
-            text: "Open Maps",
-            width: SizeHelper.width(context) * 90 / 100,
-            height: 50,
+        SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(left: 20, right: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: ColorTheme.tertiary.withOpacity(0.8),
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 0.5,
+                      ),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child: Icon(Icons.arrow_back_ios_rounded),
+                  ),
+                ),
+                SizedBox(
+                  height: SizeHelper.height(context) * 0.36 -
+                      MediaQuery.of(context).padding.top -
+                      AppBar().preferredSize.height,
+                ),
+                Container(
+                  child: DefaultTabController(
+                    initialIndex: 0,
+                    length: 2,
+                    child: Expanded(
+                      child: Column(
+                        children: [
+                          TabBar(
+                            labelColor: ColorTheme.primary,
+                            unselectedLabelColor: Colors.black.withOpacity(0.5),
+                            tabs: [
+                              Tab(
+                                child: Text(
+                                  'Detail',
+                                ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  'Image',
+                                ),
+                              ),
+                            ],
+                            indicator: BoxDecoration(),
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              physics: NeverScrollableScrollPhysics(),
+                              children: [
+                                _detail(context, state, position),
+                                Text('data2'),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ButtonWidget(
+                      width: SizeHelper.width(context),
+                      height: 42,
+                      text: "Open Maps",
+                      onTap: () {
+                        openMapsSheet(context);
+                      }),
+                ),
+              ],
+            ),
           ),
         )
       ],
+    );
+  }
+
+  Widget _detail(
+      BuildContext context, DetailWisataModel state, Position position) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            state.detail.nama,
+            style: TextStyleTheme.h1,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            state.detail.alamat,
+            style: TextStyleTheme.alamatText,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Distance " +
+                DistanceHelper()
+                    .getDistance(
+                        position.latitude,
+                        position.longitude,
+                        double.parse(state.detail.latitude),
+                        double.parse(state.detail.longitude))
+                    .toStringAsFixed(2) +
+                " km",
+            style: TextStyleTheme.alamatText,
+          ),
+          Divider(),
+          Text(
+            "Description",
+            style: TextStyleTheme.appbarText,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: Text(state.detail.deskripsi),
+          )
+        ],
+      ),
     );
   }
 }

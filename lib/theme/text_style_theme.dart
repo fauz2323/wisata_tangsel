@@ -17,4 +17,13 @@ class TextStyleTheme {
     fontWeight: FontWeight.w600,
     color: Colors.black,
   );
+  static TextStyle h1 = GoogleFonts.montserrat(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  );
+  static TextStyle alamatText = GoogleFonts.montserrat(
+    fontSize: 15,
+    color: Colors.grey,
+  );
 }
