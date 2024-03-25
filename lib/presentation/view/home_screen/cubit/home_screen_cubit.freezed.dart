@@ -20,9 +20,7 @@ mixin _$HomeScreenState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            WisataModel wisataModel, Position position, Address address)
-        loaded,
+    required TResult Function(HomeFreezedModel data) loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
   }) =>
@@ -31,9 +29,7 @@ mixin _$HomeScreenState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult? Function(HomeFreezedModel data)? loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) =>
@@ -42,9 +38,7 @@ mixin _$HomeScreenState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult Function(HomeFreezedModel data)? loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
@@ -138,9 +132,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            WisataModel wisataModel, Position position, Address address)
-        loaded,
+    required TResult Function(HomeFreezedModel data) loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
   }) {
@@ -152,9 +144,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult? Function(HomeFreezedModel data)? loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
@@ -166,9 +156,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult Function(HomeFreezedModel data)? loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
@@ -264,9 +252,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            WisataModel wisataModel, Position position, Address address)
-        loaded,
+    required TResult Function(HomeFreezedModel data) loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
   }) {
@@ -278,9 +264,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult? Function(HomeFreezedModel data)? loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
@@ -292,9 +276,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult Function(HomeFreezedModel data)? loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
@@ -356,7 +338,9 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({WisataModel wisataModel, Position position, Address address});
+  $Res call({HomeFreezedModel data});
+
+  $HomeFreezedModelCopyWith<$Res> get data;
 }
 
 /// @nodoc
@@ -370,42 +354,36 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? wisataModel = null,
-    Object? position = null,
-    Object? address = null,
+    Object? data = null,
   }) {
     return _then(_$LoadedImpl(
-      null == wisataModel
-          ? _value.wisataModel
-          : wisataModel // ignore: cast_nullable_to_non_nullable
-              as WisataModel,
-      null == position
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as Position,
-      null == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as Address,
+      null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as HomeFreezedModel,
     ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $HomeFreezedModelCopyWith<$Res> get data {
+    return $HomeFreezedModelCopyWith<$Res>(_value.data, (value) {
+      return _then(_value.copyWith(data: value));
+    });
   }
 }
 
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(this.wisataModel, this.position, this.address);
+  const _$LoadedImpl(this.data);
 
   @override
-  final WisataModel wisataModel;
-  @override
-  final Position position;
-  @override
-  final Address address;
+  final HomeFreezedModel data;
 
   @override
   String toString() {
-    return 'HomeScreenState.loaded(wisataModel: $wisataModel, position: $position, address: $address)';
+    return 'HomeScreenState.loaded(data: $data)';
   }
 
   @override
@@ -413,15 +391,11 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            (identical(other.wisataModel, wisataModel) ||
-                other.wisataModel == wisataModel) &&
-            (identical(other.position, position) ||
-                other.position == position) &&
-            (identical(other.address, address) || other.address == address));
+            (identical(other.data, data) || other.data == data));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, wisataModel, position, address);
+  int get hashCode => Object.hash(runtimeType, data);
 
   @JsonKey(ignore: true)
   @override
@@ -434,13 +408,11 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            WisataModel wisataModel, Position position, Address address)
-        loaded,
+    required TResult Function(HomeFreezedModel data) loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
   }) {
-    return loaded(wisataModel, position, address);
+    return loaded(data);
   }
 
   @override
@@ -448,13 +420,11 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult? Function(HomeFreezedModel data)? loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
-    return loaded?.call(wisataModel, position, address);
+    return loaded?.call(data);
   }
 
   @override
@@ -462,15 +432,13 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult Function(HomeFreezedModel data)? loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(wisataModel, position, address);
+      return loaded(data);
     }
     return orElse();
   }
@@ -517,12 +485,9 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements HomeScreenState {
-  const factory _Loaded(final WisataModel wisataModel, final Position position,
-      final Address address) = _$LoadedImpl;
+  const factory _Loaded(final HomeFreezedModel data) = _$LoadedImpl;
 
-  WisataModel get wisataModel;
-  Position get position;
-  Address get address;
+  HomeFreezedModel get data;
   @JsonKey(ignore: true)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -594,9 +559,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            WisataModel wisataModel, Position position, Address address)
-        loaded,
+    required TResult Function(HomeFreezedModel data) loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
   }) {
@@ -608,9 +571,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult? Function(HomeFreezedModel data)? loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
@@ -622,9 +583,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult Function(HomeFreezedModel data)? loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),
@@ -725,9 +684,7 @@ class _$UnautorizeImpl implements _Unautorize {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            WisataModel wisataModel, Position position, Address address)
-        loaded,
+    required TResult Function(HomeFreezedModel data) loaded,
     required TResult Function(String message) error,
     required TResult Function() unautorize,
   }) {
@@ -739,9 +696,7 @@ class _$UnautorizeImpl implements _Unautorize {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult? Function(HomeFreezedModel data)? loaded,
     TResult? Function(String message)? error,
     TResult? Function()? unautorize,
   }) {
@@ -753,9 +708,7 @@ class _$UnautorizeImpl implements _Unautorize {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            WisataModel wisataModel, Position position, Address address)?
-        loaded,
+    TResult Function(HomeFreezedModel data)? loaded,
     TResult Function(String message)? error,
     TResult Function()? unautorize,
     required TResult orElse(),

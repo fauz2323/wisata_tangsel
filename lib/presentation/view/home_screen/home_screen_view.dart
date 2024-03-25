@@ -1,14 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocode/geocode.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:tha_maps/data/freezed_model/home_freezed_model.dart';
 import 'package:tha_maps/data/model/wisata_argument_model.dart';
-import 'package:tha_maps/data/model/wisata_model.dart';
 import 'package:tha_maps/helper/distance_helper.dart';
 import 'package:tha_maps/helper/size_helper.dart';
 import 'package:tha_maps/presentation/view/home_screen/cubit/home_screen_cubit.dart';
 import 'package:tha_maps/presentation/widget/button_menu_widget.dart';
+import 'package:tha_maps/presentation/widget/image_widget.dart';
 import 'package:tha_maps/theme/color_theme.dart';
 
 import '../../../helper/token_helper.dart';
@@ -45,16 +43,23 @@ class HomeScreenView extends StatelessWidget {
           return state.maybeWhen(
             orElse: () => Container(),
             loading: () => LoadingWidget(),
-            loaded: (data, position, address) =>
-                _loaded(context, data, position, address),
+            loaded: (
+              data,
+            ) =>
+                _loaded(
+              context,
+              data,
+            ),
           );
         },
       ),
     );
   }
 
-  Widget _loaded(BuildContext context, WisataModel data, Position position,
-      Address address) {
+  Widget _loaded(
+    BuildContext context,
+    HomeFreezedModel data,
+  ) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -73,7 +78,7 @@ class HomeScreenView extends StatelessWidget {
                         Icons.location_on,
                         color: ColorTheme.primary,
                       ),
-                      Text(address.city ?? 'city not detected',
+                      Text(data.address.city ?? 'city not detected',
                           style: TextStyleTheme.appbarText),
                     ],
                   ),
@@ -99,33 +104,78 @@ class HomeScreenView extends StatelessWidget {
               ),
             ),
             Container(
+              padding: EdgeInsets.only(left: 20, right: 20),
               width: SizeHelper.width(context),
-              height: SizeHelper.height(context) * 35 / 100,
+              height: SizeHelper.height(context) * 5 / 100,
+              child: Center(
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    Row(
+                      children: data.category.category
+                          .map(
+                            (e) => GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<HomeScreenCubit>()
+                                    .filterWisata(e.id.toString());
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 10),
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: ColorTheme.primary),
+                                  color: e.id.toString() == data.id
+                                      ? ColorTheme.primary
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  e.category,
+                                  style: TextStyle(
+                                      color: e.id.toString() == data.id
+                                          ? Colors.white
+                                          : Colors.black),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              width: SizeHelper.width(context),
+              height: SizeHelper.height(context) * 45 / 100,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: data.wisata
-                    .map(
-                      (e) => ImageSlider(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/detail-wisata',
-                              arguments:
-                                  WisataArgumentModel(id: e.id.toString()));
-                        },
-                        url:
-                            "https://zeen.my.id/storage/image/" + e.image.image,
-                        distance: DistanceHelper()
-                                .getDistance(
-                                  position.latitude,
-                                  position.longitude,
-                                  double.parse(e.latitude),
-                                  double.parse(e.longitude),
-                                )
-                                .toStringAsFixed(2) +
-                            " KM",
-                        name: e.nama,
-                      ),
-                    )
-                    .toList(),
+                children: data.wisataModel.wisata.map((e) {
+                  if (data.id == '0' ||
+                      data.id == e.wisataCategoryId.toString()) {
+                    return ImageWidget(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/detail-wisata',
+                            arguments:
+                                WisataArgumentModel(id: e.id.toString()));
+                      },
+                      url: "https://zeen.my.id/storage/image/" + e.image.image,
+                      distance: DistanceHelper()
+                              .getDistance(
+                                data.position.latitude,
+                                data.position.longitude,
+                                double.parse(e.latitude),
+                                double.parse(e.longitude),
+                              )
+                              .toStringAsFixed(2) +
+                          " KM",
+                      name: e.nama,
+                    );
+                  } else {
+                    return Container();
+                  }
+                }).toList(),
               ),
             ),
             Container(
@@ -171,77 +221,6 @@ class HomeScreenView extends StatelessWidget {
                 style: TextStyleTheme.appbarText,
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ImageSlider extends StatelessWidget {
-  const ImageSlider({
-    super.key,
-    required this.url,
-    required this.distance,
-    required this.name,
-    required this.onTap,
-  });
-  final String url;
-  final String distance;
-  final String name;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.all(5),
-        width: SizeHelper.width(context) * 45 / 100,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 0.5,
-                blurRadius: 2,
-                offset: Offset(0, 3),
-              )
-            ]),
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: CachedNetworkImage(
-                imageUrl: url,
-                height: SizeHelper.width(context) * 45 / 100 - 10,
-                width: SizeHelper.width(context) * 45 / 100 - 10,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text(
-                    name,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Align(
-                    child: Text(distance),
-                    alignment: Alignment.centerRight,
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),

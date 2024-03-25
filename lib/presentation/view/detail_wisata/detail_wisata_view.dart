@@ -107,7 +107,7 @@ class DetailWisataView extends StatelessWidget {
             imageUrl:
                 "https://zeen.my.id/storage/image/" + state.detail.image.image,
             width: SizeHelper.width(context),
-            height: SizeHelper.height(context) * 0.35,
+            height: SizeHelper.height(context) * 0.45,
             fit: BoxFit.cover,
             placeholder: (context, url) => const LoadingWidget(),
             errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -138,7 +138,7 @@ class DetailWisataView extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: SizeHelper.height(context) * 0.36 -
+                  height: SizeHelper.height(context) * 0.46 -
                       MediaQuery.of(context).padding.top -
                       AppBar().preferredSize.height,
                 ),
@@ -219,18 +219,30 @@ class DetailWisataView extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          Text(
-            "Distance " +
-                DistanceHelper()
-                    .getDistance(
-                        position.latitude,
-                        position.longitude,
-                        double.parse(state.detail.latitude),
-                        double.parse(state.detail.longitude))
-                    .toStringAsFixed(2) +
-                " km",
-            style: TextStyleTheme.alamatText,
-          ),
+          Align(
+              alignment: Alignment.bottomRight,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Icon(
+                    Icons.location_on,
+                    color: ColorTheme.primary,
+                  ),
+                  Text(
+                    DistanceHelper()
+                            .getDistance(
+                                position.latitude,
+                                position.longitude,
+                                double.parse(state.detail.latitude),
+                                double.parse(state.detail.longitude))
+                            .toStringAsFixed(2) +
+                        " km",
+                    style: TextStyleTheme.alamatText
+                        .copyWith(color: ColorTheme.primary),
+                  ),
+                ],
+              )),
           Divider(),
           Text(
             "Description",

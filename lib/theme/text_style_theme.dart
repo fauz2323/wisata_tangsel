@@ -26,4 +26,10 @@ class TextStyleTheme {
     fontSize: 15,
     color: Colors.grey,
   );
+
+  static TextStyle textImage = GoogleFonts.montserrat(
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
 }
