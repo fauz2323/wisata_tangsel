@@ -46,7 +46,7 @@ class ListWisataView extends StatelessWidget {
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => Container(),
-            loading: () => LoadingWidget(),
+            loading: () => const LoadingWidget(),
             loaded: (data, position) => _page(context, data, position),
           );
         },
@@ -58,7 +58,7 @@ class ListWisataView extends StatelessWidget {
       BuildContext context, WisataModel wisataModel, Position position) {
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
             children: wisataModel.wisata
                 .map(
@@ -68,13 +68,14 @@ class ListWisataView extends StatelessWidget {
                           arguments: WisataArgumentModel(id: e.id.toString()));
                     },
                     tittle: e.nama,
-                    url: "https://zeen.my.id/storage/image/" + e.image.image,
+                    url:
+                        "https://pesonakabupaten.site/storage/image/${e.image.image}",
                     distance: DistanceHelper()
                         .getDistance(
                           position.latitude,
                           position.longitude,
-                          double.parse(e.latitude),
-                          double.parse(e.longitude),
+                          e.latitude,
+                          e.longitude,
                         )
                         .toStringAsFixed(2),
                   ),

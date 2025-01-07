@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class DetailWisataModel {
   Detail detail;
 
@@ -17,13 +19,13 @@ class DetailWisataModel {
 
 class Detail {
   int id;
-  String userId;
-  String wisataCategoryId;
+  int userId;
+  int wisataCategoryId;
   String nama;
   String alamat;
   String deskripsi;
-  String latitude;
-  String longitude;
+  double latitude;
+  double longitude;
   String operatingHours;
   DateTime createdAt;
   DateTime updatedAt;
@@ -89,8 +91,8 @@ class Detail {
 
 class Clicks {
   int id;
-  String wisataId;
-  String userClick;
+  int wisataId;
+  int userClick;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -121,7 +123,7 @@ class Clicks {
 
 class Image {
   int id;
-  String wisataId;
+  int wisataId;
   String image;
   String uuid;
   DateTime createdAt;
@@ -157,7 +159,7 @@ class Image {
 
 class Info {
   int id;
-  String wisataId;
+  int wisataId;
   String phone;
   String email;
   String website;
@@ -197,7 +199,7 @@ class Info {
 
 class Kategori {
   int id;
-  String userId;
+  int userId;
   String category;
   DateTime createdAt;
   DateTime updatedAt;

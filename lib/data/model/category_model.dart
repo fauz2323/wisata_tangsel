@@ -17,7 +17,7 @@ class CategoryModel {
 
 class Category {
   int id;
-  String userId;
+  int userId;
   String category;
   DateTime createdAt;
   DateTime updatedAt;

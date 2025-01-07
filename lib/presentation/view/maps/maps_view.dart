@@ -64,8 +64,7 @@ class MapsView extends StatelessWidget {
           markers: data.wisataModel.wisata
               .map(
                 (e) => Marker(
-                  point: LatLng(
-                      double.parse(e.latitude), double.parse(e.longitude)),
+                  point: LatLng(e.latitude, e.longitude),
                   width: 80,
                   height: 80,
                   child: IconButton(

@@ -1,5 +1,5 @@
 class ApiEndpoint {
-  static String baseUrl = "https://zeen.my.id";
+  static String baseUrl = "http://pesonakabupaten.site/";
 
   static Uri login = Uri.parse("$baseUrl/api/login");
   static Uri register = Uri.parse("$baseUrl/api/register");

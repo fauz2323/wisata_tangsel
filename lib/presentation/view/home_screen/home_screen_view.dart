@@ -42,7 +42,7 @@ class HomeScreenView extends StatelessWidget {
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => Container(),
-            loading: () => LoadingWidget(),
+            loading: () => const LoadingWidget(),
             loaded: (
               data,
             ) =>
@@ -74,7 +74,7 @@ class HomeScreenView extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.location_on,
                         color: ColorTheme.primary,
                       ),
@@ -88,7 +88,7 @@ class HomeScreenView extends StatelessWidget {
                       // ignore: use_build_context_synchronously
                       Navigator.pushReplacementNamed(context, '/login');
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.logout_outlined,
                       color: Colors.red,
                     ),
@@ -97,14 +97,14 @@ class HomeScreenView extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Text(
                 "Explore city",
                 style: TextStyleTheme.appbarText,
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 20, right: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               width: SizeHelper.width(context),
               height: SizeHelper.height(context) * 5 / 100,
               child: Center(
@@ -121,8 +121,8 @@ class HomeScreenView extends StatelessWidget {
                                     .filterWisata(e.id.toString());
                               },
                               child: Container(
-                                margin: EdgeInsets.only(right: 10),
-                                padding: EdgeInsets.all(10),
+                                margin: const EdgeInsets.only(right: 10),
+                                padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: ColorTheme.primary),
                                   color: e.id.toString() == data.id
@@ -146,7 +146,7 @@ class HomeScreenView extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
+            SizedBox(
               width: SizeHelper.width(context),
               height: SizeHelper.height(context) * 45 / 100,
               child: ListView(
@@ -160,16 +160,14 @@ class HomeScreenView extends StatelessWidget {
                             arguments:
                                 WisataArgumentModel(id: e.id.toString()));
                       },
-                      url: "https://zeen.my.id/storage/image/" + e.image.image,
-                      distance: DistanceHelper()
-                              .getDistance(
-                                data.position.latitude,
-                                data.position.longitude,
-                                double.parse(e.latitude),
-                                double.parse(e.longitude),
-                              )
-                              .toStringAsFixed(2) +
-                          " KM",
+                      url:
+                          "https://pesonakabupaten.site/storage/image/${e.image.image}",
+                      distance: "${DistanceHelper().getDistance(
+                            data.position.latitude,
+                            data.position.longitude,
+                            e.latitude,
+                            e.longitude,
+                          ).toStringAsFixed(2)} KM",
                       name: e.nama,
                     );
                   } else {
@@ -179,14 +177,14 @@ class HomeScreenView extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Text(
                 "Menu",
                 style: TextStyleTheme.appbarText,
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -215,7 +213,7 @@ class HomeScreenView extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
               child: Text(
                 "Explore Hotels",
                 style: TextStyleTheme.appbarText,

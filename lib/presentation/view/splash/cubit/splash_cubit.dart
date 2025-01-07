@@ -7,20 +7,19 @@ part 'splash_state.dart';
 part 'splash_cubit.freezed.dart';
 
 class SplashCubit extends Cubit<SplashState> {
-  SplashCubit() : super(SplashState.initial('-'));
+  SplashCubit() : super(const SplashState.initial('-'));
   final TokenHelper _tokenHelper = TokenHelper();
   final AuthController _authController = AuthController();
   String version = '-';
 
   initial() async {
     String token = await _tokenHelper.getToken();
-    var request = await _authController.version();
-    emit(SplashState.initial(request.data['version'].toString()));
+    emit(const SplashState.initial("1.0.0"));
     await Future.delayed(const Duration(seconds: 2));
     if (token == '-') {
-      emit(SplashState.loaded(false));
+      emit(const SplashState.loaded(false));
     } else {
-      emit(SplashState.loaded(true));
+      emit(const SplashState.loaded(true));
     }
   }
 }

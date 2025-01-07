@@ -17,13 +17,13 @@ class WisataModel {
 
 class Wisata {
   int id;
-  String userId;
-  String wisataCategoryId;
+  int userId;
+  int wisataCategoryId;
   String nama;
   String alamat;
   String deskripsi;
-  String latitude;
-  String longitude;
+  double latitude;
+  double longitude;
   String operatingHours;
   DateTime createdAt;
   DateTime updatedAt;
@@ -77,7 +77,7 @@ class Wisata {
 
 class Image {
   int id;
-  String wisataId;
+  int wisataId;
   String image;
   String uuid;
   DateTime createdAt;

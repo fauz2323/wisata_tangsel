@@ -72,6 +72,8 @@ class AuthController implements AuthRepository {
       return http.Response('{"message":"Connection Timeout"}', 408);
     });
 
+    print(request.body);
+
     return ResponseHelper.response(request);
   }
 }

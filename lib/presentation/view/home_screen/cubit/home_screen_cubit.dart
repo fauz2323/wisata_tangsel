@@ -37,7 +37,7 @@ class HomeScreenCubit extends Cubit<HomeScreenState> {
 
       final Category dataCategory = Category(
         id: 0,
-        userId: '-',
+        userId: 0,
         category: 'All',
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),

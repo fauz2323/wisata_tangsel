@@ -49,7 +49,7 @@ class DetailWisataView extends StatelessWidget {
           return state.maybeWhen(
             orElse: () => const Placeholder(),
             loaded: (data, position) => _loaded(context, data, position),
-            loading: () => LoadingWidget(),
+            loading: () => const LoadingWidget(),
             error: (message) => ErrorWidget(message),
           );
         },
@@ -61,8 +61,7 @@ class DetailWisataView extends StatelessWidget {
       BuildContext context, DetailWisataModel state, Position position) {
     openMapsSheet(context) async {
       try {
-        final coords = Coords(double.parse(state.detail.latitude),
-            double.parse(state.detail.longitude));
+        final coords = Coords(state.detail.latitude, state.detail.longitude);
         final title = state.detail.nama;
         final availableMaps = await MapLauncher.installedMaps;
 
@@ -100,12 +99,12 @@ class DetailWisataView extends StatelessWidget {
     return Stack(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(30),
               bottomRight: Radius.circular(30)),
           child: CachedNetworkImage(
             imageUrl:
-                "https://zeen.my.id/storage/image/" + state.detail.image.image,
+                "https://pesonakabupaten.site/storage/image/${state.detail.image.image}",
             width: SizeHelper.width(context),
             height: SizeHelper.height(context) * 0.45,
             fit: BoxFit.cover,
@@ -115,7 +114,7 @@ class DetailWisataView extends StatelessWidget {
         ),
         SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,8 +132,8 @@ class DetailWisataView extends StatelessWidget {
                         width: 0.5,
                       ),
                     ),
-                    padding: EdgeInsets.all(10),
-                    child: Icon(Icons.arrow_back_ios_rounded),
+                    padding: const EdgeInsets.all(10),
+                    child: const Icon(Icons.arrow_back_ios_rounded),
                   ),
                 ),
                 SizedBox(
@@ -152,7 +151,7 @@ class DetailWisataView extends StatelessWidget {
                           TabBar(
                             labelColor: ColorTheme.primary,
                             unselectedLabelColor: Colors.black.withOpacity(0.5),
-                            tabs: [
+                            tabs: const [
                               Tab(
                                 child: Text(
                                   'Detail',
@@ -164,14 +163,14 @@ class DetailWisataView extends StatelessWidget {
                                 ),
                               ),
                             ],
-                            indicator: BoxDecoration(),
+                            indicator: const BoxDecoration(),
                           ),
                           Expanded(
                             child: TabBarView(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               children: [
                                 _detail(context, state, position),
-                                Text('data2'),
+                                const Text('data2'),
                               ],
                             ),
                           )
@@ -209,14 +208,14 @@ class DetailWisataView extends StatelessWidget {
             state.detail.nama,
             style: TextStyleTheme.h1,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
             state.detail.alamat,
             style: TextStyleTheme.alamatText,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Align(
@@ -225,31 +224,29 @@ class DetailWisataView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.location_on,
                     color: ColorTheme.primary,
                   ),
                   Text(
-                    DistanceHelper()
-                            .getDistance(
-                                position.latitude,
-                                position.longitude,
-                                double.parse(state.detail.latitude),
-                                double.parse(state.detail.longitude))
-                            .toStringAsFixed(2) +
-                        " km",
+                    "${DistanceHelper().getDistance(
+                          position.latitude,
+                          position.longitude,
+                          state.detail.latitude,
+                          state.detail.longitude,
+                        ).toStringAsFixed(2)} km",
                     style: TextStyleTheme.alamatText
                         .copyWith(color: ColorTheme.primary),
                   ),
                 ],
               )),
-          Divider(),
+          const Divider(),
           Text(
             "Description",
             style: TextStyleTheme.appbarText,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(state.detail.deskripsi),
           )
         ],
